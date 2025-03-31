@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Six Sense Health - Teleconsultation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <img src="https://via.placeholder.com/40x40.png?text=6SH" alt="Logo">
+                    <span>Six Sense Health</span>
+                </div>
+                <button class="sidebar-toggle" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="teleconsultation.html" class="menu-item active">
+                    <i class="fas fa-comment-medical"></i>
+                    <span>Teleconsultation</span>
+                </a>
+                <a href="bp-monitoring.html" class="menu-item">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>BP Monitoring</span>
+                </a>
+                <a href="medication.html" class="menu-item">
+                    <i class="fas fa-pills"></i>
+                    <span>Medication</span>
+                </a>
+                <a href="appointments.html" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Appointments</span>
+                </a>
+                <a href="profile.html" class="menu-item">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="index.html" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="dashboard-header">
+                <h2>Teleconsultation</h2>
+                
+                <div class="user-profile">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                    
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40x40.png?text=LN" alt="User Avatar">
+                    </div>
+                    <span>Li Na</span>
+                </div>
+            </div>
+            
+            <!-- Chat Interface -->
+            <div class="chat-container">
+                <!-- Chat Sidebar -->
+                <div class="chat-sidebar">
+                    <!-- Doctor Profile -->
+                    <div class="doctor-profile">
+                        <div class="doctor-avatar">
+                            <img src="https://via.placeholder.com/80x80.png?text=Dr.W" alt="Doctor Avatar">
+                        </div>
+                        <div class="doctor-info">
+                            <h3>Dr. Wang Li</h3>
+                            <p>Cardiologist</p>
+                            <span class="doctor-status">Online</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Shared Files -->
+                    <div class="chat-files">
+                        <h4 class="mb-2">Shared Files</h4>
+                        
+                        <div class="file-item">
+                            <div class="file-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="file-info">
+                                <h4>Hypertension Guidelines.pdf</h4>
+                                <p>Shared on Jan 10, 2023</p>
+                            </div>
+                        </div>
+                        
+                        <div class="file-item">
+                            <div class="file-icon">
+                                <i class="fas fa-file-image"></i>
+                            </div>
+                            <div class="file-info">
+                                <h4>ECG Results.jpg</h4>
+                                <p>Shared on Dec 15, 2022</p>
+                            </div>
+                        </div>
+                        
+                        <div class="file-item">
+                            <div class="file-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="file-info">
+                                <h4>Diet Plan.docx</h4>
+                                <p>Shared on Dec 5, 2022</p>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-outline btn-block mt-3">
+                            <i class="fas fa-upload"></i> Upload File
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Chat Main Area -->
+                <div class="chat-main">
+                    <!-- Chat Header -->
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <h3>Consultation Session</h3>
+                        </div>
+                        <div class="chat-actions">
+                            <button><i class="fas fa-phone"></i></button>
+                            <button><i class="fas fa-video"></i></button>
+                            <button><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Messages -->
+                    <div class="chat-messages">
+                        <!-- Doctor Message -->
+                        <div class="message received">
+                            <div class="avatar">
+                                <img src="https://via.placeholder.com/40x40.png?text=Dr.W" alt="Doctor">
+                            </div>
+                            <div class="message-content">
+                                <p>Good morning, Li Na. How are you feeling today? Have you been taking your medication regularly?</p>
+                                <span class="time">9:30 AM</span>
+                            </div>
+                        </div>
+                        
+                        <!-- User Message -->
+                        <div class="message sent">
+                            <div class="message-content">
+                                <p>Good morning, Dr. Wang. I've been feeling better this week. Yes, I've been taking my medication as prescribed.</p>
+                                <span class="time">9:32 AM</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Doctor Message -->
+                        <div class="message received">
+                            <div class="avatar">
+                                <img src="https://via.placeholder.com/40x40.png?text=Dr.W" alt="Doctor">
+                            </div>
+                            <div class="message-content">
+                                <p>That's great to hear! Have you been monitoring your blood pressure? What were your recent readings?</p>
+                                <span class="time">9:33 AM</span>
+                            </div>
+                        </div>
+                        
+                        <!-- User Message -->
+                        <div class="message sent">
+                            <div class="message-content">
+                                <p>Yes, I've been measuring it every morning. My readings have been around 120/80 for the past few days, which seems better than before.</p>
+                                <span class="time">9:35 AM</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Doctor Message -->
+                        <div class="message received">
+                            <div class="avatar">
+                                <img src="https://via.placeholder.com/40x40.png?text=Dr.W" alt="Doctor">
+                            </div>
+                            <div class="message-content">
+                                <p>That's excellent progress! Your blood pressure is now within the normal range. The medication seems to be working well. Have you experienced any side effects?</p>
+                                <span class="time">9:37 AM</span>
+                            </div>
+                        </div>
+                        
+                        <!-- User Message -->
+                        <div class="message sent">
+                            <div class="message-content">
+                                <p>I occasionally feel a bit dizzy in the morning, but it goes away quickly. Is that normal?</p>
+                                <span class="time">9:38 AM</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Doctor Message -->
+                        <div class="message received">
+                            <div class="avatar">
+                                <img src="https://via.placeholder.com/40x40.png?text=Dr.W" alt="Doctor">
+                            </div>
+                            <div class="message-content">
+                                <p>Mild dizziness can be a side effect of your medication, especially when you first get up. Try getting up slowly from sitting or lying positions. If it becomes more frequent or severe, please let me know immediately.</p>
+                                <span class="time">9:40 AM</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Doctor Message with File -->
+                        <div class="message received">
+                            <div class="avatar">
+                                <img src="https://via.placeholder.com/40x40.png?text=Dr.W" alt="Doctor">
+                            </div>
+                            <div class="message-content">
+                                <p>I'm sharing an updated diet plan that might help further improve your blood pressure control. Please take a look when you have time.</p>
+                                <div style="background-color: #f1f1f1; padding: 10px; border-radius: 5px; margin-top: 10px; display: flex; align-items: center;">
+                                    <i class="fas fa-file-alt" style="margin-right: 10px;"></i>
+                                    <div>
+                                        <p style="margin: 0; font-weight: 500;">Updated Diet Plan.pdf</p>
+                                        <small>Click to download</small>
+                                    </div>
+                                </div>
+                                <span class="time">9:42 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Input -->
+                    <div class="chat-input-container">
+                        <input type="text" id="chat-input" class="chat-input" placeholder="Type your message here...">
+                        <button class="chat-send-btn" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- File Upload Modal -->
+    <div class="modal" id="upload-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Upload File</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Select File</label>
+                    <input type="file" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description (Optional)</label>
+                    <textarea class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                <button class="btn">Upload</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="scripts.js"></script>
+    <script>
+        // Show upload modal when upload button is clicked
+        document.querySelector('.btn-outline.btn-block').addEventListener('click', function() {
+            document.getElementById('upload-modal').style.display = 'flex';
+        });
+        
+        // Close modal function
+        function closeModal() {
+            document.getElementById('upload-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

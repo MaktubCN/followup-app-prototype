@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Six Sense Health - Blood Pressure Monitoring</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <img src="https://via.placeholder.com/40x40.png?text=6SH" alt="Logo">
+                    <span>Six Sense Health</span>
+                </div>
+                <button class="sidebar-toggle" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="teleconsultation.html" class="menu-item">
+                    <i class="fas fa-comment-medical"></i>
+                    <span>Teleconsultation</span>
+                </a>
+                <a href="bp-monitoring.html" class="menu-item active">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>BP Monitoring</span>
+                </a>
+                <a href="medication.html" class="menu-item">
+                    <i class="fas fa-pills"></i>
+                    <span>Medication</span>
+                </a>
+                <a href="appointments.html" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Appointments</span>
+                </a>
+                <a href="profile.html" class="menu-item">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="index.html" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="dashboard-header">
+                <h2>Blood Pressure Monitoring</h2>
+                
+                <div class="user-profile">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                    
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40x40.png?text=LN" alt="User Avatar">
+                    </div>
+                    <span>Li Na</span>
+                </div>
+            </div>
+            
+            <!-- Current BP Reading -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Current Blood Pressure</h3>
+                </div>
+                <div class="card-body p-3">
+                    <div class="grid grid-2">
+                        <div class="text-center">
+                            <div style="font-size: 4rem; font-weight: 700; color: var(--primary);">120</div>
+                            <p style="font-size: 1.2rem;">Systolic (mmHg)</p>
+                        </div>
+                        <div class="text-center">
+                            <div style="font-size: 4rem; font-weight: 700; color: var(--accent);">80</div>
+                            <p style="font-size: 1.2rem;">Diastolic (mmHg)</p>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <p>Last measured: Today, 8:30 AM</p>
+                        <div class="mt-2" style="display: inline-block; padding: 8px 15px; background-color: rgba(46, 204, 113, 0.1); color: var(--secondary); border-radius: 20px;">
+                            <i class="fas fa-check-circle"></i> Normal
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-block">
+                        <i class="fas fa-plus-circle"></i> Record New Measurement
+                    </button>
+                </div>
+            </div>
+            
+            <!-- BP History Chart -->
+            <div class="bp-chart-container mb-4">
+                <div class="chart-header">
+                    <h3>Blood Pressure History</h3>
+                    <div class="chart-filters">
+                        <select>
+                            <option>Daily</option>
+                            <option>Weekly</option>
+                            <option>Monthly</option>
+                        </select>
+                        <select>
+                            <option>Last 7 Days</option>
+                            <option>Last 30 Days</option>
+                            <option>Last 3 Months</option>
+                        </select>
+                    </div>
+                </div>
+                <canvas id="bp-history-chart" height="300"></canvas>
+            </div>
+            
+            <!-- AI Advisor -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3><i class="fas fa-robot text-primary"></i> AI Health Advisor</h3>
+                </div>
+                <div class="card-body p-3">
+                    <div class="ai-message">
+                        <p><strong>Based on your recent readings:</strong></p>
+                        <ul class="mt-2">
+                            <li>Your blood pressure is within normal range.</li>
+                            <li>Continue with your current medication as prescribed.</li>
+                            <li>Your readings show good stability over the past week.</li>
+                        </ul>
+                        
+                        <p class="mt-3"><strong>Recommendations:</strong></p>
+                        <ul>
+                            <li>Maintain your current low-sodium diet.</li>
+                            <li>Continue with 30 minutes of daily moderate exercise.</li>
+                            <li>Ensure you're getting 7-8 hours of sleep each night.</li>
+                            <li>Consider reducing caffeine intake in the evening.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <input type="text" class="form-control" placeholder="Ask AI advisor a question...">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn">
+                        <i class="fas fa-question-circle"></i> Ask Question
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Recent Measurements -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Recent Measurements</h3>
+                </div>
+                <div class="card-body">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <th style="padding: 12px; text-align: left;">Date & Time</th>
+                                <th style="padding: 12px; text-align: center;">Systolic</th>
+                                <th style="padding: 12px; text-align: center;">Diastolic</th>
+                                <th style="padding: 12px; text-align: center;">Pulse</th>
+                                <th style="padding: 12px; text-align: center;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px;">Today, 8:30 AM</td>
+                                <td style="padding: 12px; text-align: center;">120</td>
+                                <td style="padding: 12px; text-align: center;">80</td>
+                                <td style="padding: 12px; text-align: center;">72</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <span style="display: inline-block; padding: 3px 10px; background-color: rgba(46, 204, 113, 0.1); color: var(--secondary); border-radius: 20px; font-size: 0.8rem;">
+                                        Normal
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px;">Yesterday, 9:15 PM</td>
+                                <td style="padding: 12px; text-align: center;">118</td>
+                                <td style="padding: 12px; text-align: center;">78</td>
+                                <td style="padding: 12px; text-align: center;">70</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <span style="display: inline-block; padding: 3px 10px; background-color: rgba(46, 204, 113, 0.1); color: var(--secondary); border-radius: 20px; font-size: 0.8rem;">
+                                        Normal
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px;">Yesterday, 7:30 AM</td>
+                                <td style="padding: 12px; text-align: center;">125</td>
+                                <td style="padding: 12px; text-align: center;">82</td>
+                                <td style="padding: 12px; text-align: center;">75</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <span style="display: inline-block; padding: 3px 10px; background-color: rgba(46, 204, 113, 0.1); color: var(--secondary); border-radius: 20px; font-size: 0.8rem;">
+                                        Normal
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px;">Jan 10, 8:45 AM</td>
+                                <td style="padding: 12px; text-align: center;">130</td>
+                                <td style="padding: 12px; text-align: center;">85</td>
+                                <td style="padding: 12px; text-align: center;">78</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <span style="display: inline-block; padding: 3px 10px; background-color: rgba(241, 196, 15, 0.1); color: #f39c12; border-radius: 20px; font-size: 0.8rem;">
+                                        Elevated
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px;">Jan 9, 9:00 AM</td>
+                                <td style="padding: 12px; text-align: center;">128</td>
+                                <td style="padding: 12px; text-align: center;">84</td>
+                                <td style="padding: 12px; text-align: center;">76</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <span style="display: inline-block; padding: 3px 10px; background-color: rgba(241, 196, 15, 0.1); color: #f39c12; border-radius: 20px; font-size: 0.8rem;">
+                                        Elevated
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-download"></i> Export Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Measurement Modal -->
+    <div class="modal" id="measurement-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Record New Measurement</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Systolic (mmHg)</label>
+                    <input type="number" class="form-control" id="systolic-input" min="70" max="200">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Diastolic (mmHg)</label>
+                    <input type="number" class="form-control" id="diastolic-input" min="40" max="130">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Pulse (bpm)</label>
+                    <input type="number" class="form-control" id="pulse-input" min="40" max="200">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-control" id="measurement-notes" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                <button class="btn" onclick="saveNewMeasurement()">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="scripts.js"></script>
+    <script>
+        // Initialize BP Chart
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('bp-history-chart').getContext('2d');
+            
+            // Sample data
+            const data = {
+                labels: ['Jan 9', 'Jan 10', 'Jan 11', 'Jan 12', 'Jan 13', 'Jan 14', 'Jan 15'],
+                datasets: [
+                    {
+                        label: 'Systolic',
+                        data: [128, 130, 125, 122, 118, 120, 120],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Diastolic',
+                        data: [84, 85, 82, 80, 78, 80, 80],
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        tension: 0.4
+                    }
+                ]
+            };
+            
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 60,
+                            max: 160,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            };
+            
+            new Chart(ctx, config);
+            
+            // Record new measurement button
+            const recordBtn = document.querySelector('.card-footer .btn-block');
+            if (recordBtn) {
+                recordBtn.addEventListener('click', function() {
+                    document.getElementById('measurement-modal').style.display = 'flex';
+                });
+            }
+        });
+        
+        // Modal functions
+        function closeModal() {
+            document.getElementById('measurement-modal').style.display = 'none';
+        }
+        
+        function saveNewMeasurement() {
+            const systolic = document.getElementById('systolic-input').value;
+            const diastolic = document.getElementById('diastolic-input').value;
+            const pulse = document.getElementById('pulse-input').value;
+            const notes = document.getElementById('measurement-notes').value;
+            
+            if (systolic && diastolic && pulse) {
+                // In a real app, this would be an API call to save the data
+                console.log('Saving measurement:', { systolic, diastolic, pulse, notes });
+                
+                // Update the current reading display
+                const systolicDisplay = document.querySelector('.card-body .grid-2 div:first-child div');
+                const diastolicDisplay = document.querySelector('.card-body .grid-2 div:last-child div');
+                
+                if (systolicDisplay && diastolicDisplay) {
+                    systolicDisplay.textContent = systolic;
+                    diastolicDisplay.textContent = diastolic;
+                }
+                
+                // Update last measured time
+                const lastMeasuredText = document.querySelector('.card-body .text-center p');
+                if (lastMeasuredText) {
+                    lastMeasuredText.textContent = 'Last measured: Just now';
+                }
+                
+                // Close the modal
+                closeModal();
+                
+                // Show success message
+                alert('Measurement saved successfully!');
+            } else {
+                alert('Please fill in all required fields');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Six Sense Health - Appointments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <img src="https://via.placeholder.com/40x40.png?text=6SH" alt="Logo">
+                    <span>Six Sense Health</span>
+                </div>
+                <button class="sidebar-toggle" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="teleconsultation.html" class="menu-item">
+                    <i class="fas fa-comment-medical"></i>
+                    <span>Teleconsultation</span>
+                </a>
+                <a href="bp-monitoring.html" class="menu-item">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>BP Monitoring</span>
+                </a>
+                <a href="medication.html" class="menu-item">
+                    <i class="fas fa-pills"></i>
+                    <span>Medication</span>
+                </a>
+                <a href="appointments.html" class="menu-item active">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Appointments</span>
+                </a>
+                <a href="profile.html" class="menu-item">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="index.html" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="dashboard-header">
+                <h2>Book Appointments</h2>
+                
+                <div class="user-profile">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                    
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40x40.png?text=LN" alt="User Avatar">
+                    </div>
+                    <span>Li Na</span>
+                </div>
+            </div>
+            
+            <!-- Upcoming Appointments -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Your Upcoming Appointments</h3>
+                </div>
+                <div class="card-body">
+                    <div class="upcoming-appointments">
+                        <div class="appointment-card">
+                            <div class="appointment-info">
+                                <h3>Dr. Wang Li</h3>
+                                <p><i class="fas fa-calendar"></i> January 20, 2023 at 10:30 AM</p>
+                                <p><i class="fas fa-stethoscope"></i> Regular Check-up</p>
+                            </div>
+                            <div class="appointment-actions">
+                                <button class="btn btn-outline"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-outline"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-card">
+                            <div class="appointment-info">
+                                <h3>Dr. Zhang Wei</h3>
+                                <p><i class="fas fa-calendar"></i> February 5, 2023 at 2:00 PM</p>
+                                <p><i class="fas fa-stethoscope"></i> Cardiology Consultation</p>
+                            </div>
+                            <div class="appointment-actions">
+                                <button class="btn btn-outline"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-outline"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Doctor Filters -->
+            <div class="appointment-filters">
+                <select id="specialty-filter" onchange="filterDoctors()">
+                    <option value="all">All Specialties</option>
+                    <option value="cardiology">Cardiology</option>
+                    <option value="internal">Internal Medicine</option>
+                    <option value="nephrology">Nephrology</option>
+                </select>
+                
+                <select>
+                    <option>Earliest Available</option>
+                    <option>Highest Rated</option>
+                    <option>Recommended</option>
+                </select>
+                
+                <select>
+                    <option>Any Date</option>
+                    <option>Today</option>
+                    <option>This Week</option>
+                    <option>Next Week</option>
+                </select>
+            </div>
+            
+            <!-- Doctors List -->
+            <div class="doctors-grid">
+                <!-- Doctor 1 -->
+                <div class="doctor-card" data-specialty="cardiology">
+                    <div class="doctor-card-image">
+                        <img src="https://via.placeholder.com/300x200.png?text=Dr.Wang" alt="Doctor">
+                    </div>
+                    <div class="doctor-card-body">
+                        <h3>Dr. Wang Li</h3>
+                        <span class="doctor-specialty">Cardiology</span>
+                        
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.5 (120 reviews)</span>
+                        </div>
+                        
+                        <div class="doctor-availability">
+                            <span class="availability-badge">Mon 10:00 AM</span>
+                            <span class="availability-badge">Wed 2:30 PM</span>
+                            <span class="availability-badge">Fri 9:00 AM</span>
+                        </div>
+                        
+                        <button class="btn btn-block" onclick="bookAppointment('doc1', 'Wang Li')">
+                            Book Appointment
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Doctor 2 -->
+                <div class="doctor-card" data-specialty="internal">
+                    <div class="doctor-card-image">
+                        <img src="https://via.placeholder.com/300x200.png?text=Dr.Zhang" alt="Doctor">
+                    </div>
+                    <div class="doctor-card-body">
+                        <h3>Dr. Zhang Wei</h3>
+                        <span class="doctor-specialty">Internal Medicine</span>
+                        
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>5.0 (98 reviews)</span>
+                        </div>
+                        
+                        <div class="doctor-availability">
+                            <span class="availability-badge">Tue 11:00 AM</span>
+                            <span class="availability-badge">Thu 3:30 PM</span>
+                            <span class="availability-badge">Sat 10:00 AM</span>
+                        </div>
+                        
+                        <button class="btn btn-block" onclick="bookAppointment('doc2', 'Zhang Wei')">
+                            Book Appointment
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Doctor 3 -->
+                <div class="doctor-card" data-specialty="nephrology">
+                    <div class="doctor-card-image">
+                        <img src="https://via.placeholder.com/300x200.png?text=Dr.Liu" alt="Doctor">
+                    </div>
+                    <div class="doctor-card-body">
+                        <h3>Dr. Liu Mei</h3>
+                        <span class="doctor-specialty">Nephrology</span>
+                        
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>4.0 (75 reviews)</span>
+                        </div>
+                        
+                        <div class="doctor-availability">
+                            <span class="availability-badge">Mon 1:00 PM</span>
+                            <span class="availability-badge">Wed 11:30 AM</span>
+                            <span class="availability-badge">Fri 2:00 PM</span>
+                        </div>
+                        
+                        <button class="btn btn-block" onclick="bookAppointment('doc3', 'Liu Mei')">
+                            Book Appointment
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Doctor 4 -->
+                <div class="doctor-card" data-specialty="cardiology">
+                    <div class="doctor-card-image">
+                        <img src="https://via.placeholder.com/300x200.png?text=Dr.Chen" alt="Doctor">
+                    </div>
+                    <div class="doctor-card-body">
+                        <h3>Dr. Chen Jie</h3>
+                        <span class="doctor-specialty">Cardiology</span>
+                        
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>4.2 (110 reviews)</span>
+                        </div>
+                        
+                        <div class="doctor-availability">
+                            <span class="availability-badge">Tue 9:00 AM</span>
+                            <span class="availability-badge">Thu 1:30 PM</span>
+                            <span class="availability-badge">Sat 11:00 AM</span>
+                        </div>
+                        
+                        <button class="btn btn-block" onclick="bookAppointment('doc4', 'Chen Jie')">
+                            Book Appointment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Appointment Booking Modal -->
+    <div class="modal" id="appointment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Book Appointment with <span id="selected-doctor-name"></span></h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="doctor-id">
+                
+                <div class="form-group">
+                    <label class="form-label">Appointment Date</label>
+                    <input type="date" id="appointment-date" class="form-control" min="2023-01-16">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Appointment Time</label>
+                    <select id="appointment-time" class="form-control">
+                        <option value="">Select a time</option>
+                        <option>9:00 AM</option>
+                        <option>9:30 AM</option>
+                        <option>10:00 AM</option>
+                        <option>10:30 AM</option>
+                        <option>11:00 AM</option>
+                        <option>11:30 AM</option>
+                        <option>1:00 PM</option>
+                        <option>1:30 PM</option>
+                        <option>2:00 PM</option>
+                        <option>2:30 PM</option>
+                        <option>3:00 PM</option>
+                        <option>3:30 PM</option>
+                        <option>4:00 PM</option>
+                        <option>4:30 PM</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Appointment Type</label>
+                    <select id="appointment-type" class="form-control">
+                        <option value="">Select appointment type</option>
+                        <option>Regular Check-up</option>
+                        <option>Cardiology Consultation</option>
+                        <option>Blood Pressure Check</option>
+                        <option>ECG Test</option>
+                        <option>Medication Review</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Notes (Optional)</label>
+                    <textarea class="form-control" rows="3" placeholder="Any specific concerns or questions for the doctor?"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                <button class="btn" onclick="confirmAppointment()">Confirm Booking</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="scripts.js"></script>
+</body>
+</html>

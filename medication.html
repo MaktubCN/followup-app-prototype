@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Six Sense Health - Medication</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <img src="https://via.placeholder.com/40x40.png?text=6SH" alt="Logo">
+                    <span>Six Sense Health</span>
+                </div>
+                <button class="sidebar-toggle" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="teleconsultation.html" class="menu-item">
+                    <i class="fas fa-comment-medical"></i>
+                    <span>Teleconsultation</span>
+                </a>
+                <a href="bp-monitoring.html" class="menu-item">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>BP Monitoring</span>
+                </a>
+                <a href="medication.html" class="menu-item active">
+                    <i class="fas fa-pills"></i>
+                    <span>Medication</span>
+                </a>
+                <a href="appointments.html" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Appointments</span>
+                </a>
+                <a href="profile.html" class="menu-item">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="index.html" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="dashboard-header">
+                <h2>Medication Store</h2>
+                
+                <div class="user-profile">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                    
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40x40.png?text=LN" alt="User Avatar">
+                    </div>
+                    <span>Li Na</span>
+                </div>
+            </div>
+            
+            <!-- Medication Categories -->
+            <div class="card mb-4">
+                <div class="card-body p-3">
+                    <div class="grid grid-4" style="gap: 10px;">
+                        <button class="btn" style="background-color: var(--primary);">
+                            <i class="fas fa-heart"></i> Hypertension
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-heartbeat"></i> Heart Health
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-brain"></i> Neurological
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-shield-virus"></i> Immune Support
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Medication Search -->
+            <div class="medication-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="medication-search" placeholder="Search for medications..." onkeyup="searchMedication()">
+            </div>
+            
+            <!-- Medication List -->
+            <div class="medication-grid">
+                <!-- Medication Item 1 -->
+                <div class="medication-item">
+                    <div class="medication-image">
+                        <img src="https://via.placeholder.com/80x80.png?text=Med1" alt="Medication">
+                    </div>
+                    <div class="medication-info">
+                        <h3>Lisinopril</h3>
+                        <p>ACE inhibitor for hypertension</p>
+                        <div class="medication-price">¥45.00</div>
+                        <div class="medication-actions">
+                            <div>
+                                <span style="display: inline-block; padding: 3px 10px; background-color: rgba(46, 204, 113, 0.1); color: var(--secondary); border-radius: 20px; font-size: 0.8rem;">
+                                    In Stock
+                                </span>
+                            </div>
+                            <button class="btn btn-sm">
+                                <i class="fas fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Medication Item 2 -->
+                <div class="medication-item">
+                    <div class="medication-image">
+                        <img src="https://via.placeholder.com/80x80.png?text=Med2" alt="Medication">
+                    </div>
+                    <div class="medication-info">
+                        <h3>Amlodipine</h3>
+                        <p>Calcium channel blocker</p>
+                        <div class="medication-price">¥38.50</div>
+                        <div class="medication-actions">
+                            <div>
+                                <span style="display: inline-block; padding: 3px 10px; background-color: rgba(46, 204, 113, 0.1); color: var(--secondary); border-radius: 20px; font-size: 0.8rem;">
+                                    In Stock
+                                </span>
+                            </div>
+                            <button class="btn btn-sm">
+                                <i class="fas fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Medication Item 3 -->
+                <div class="medication-item">
+                    <div class="medication-image">
+                        <img src="https://via.placeholder.com/80x80.png?text=Med3" alt="Medication">
+                    </div>
+                    <div class="medication-info">
+                        <h3>Hydrochlorothiazide</h3>
+                        <p>Diuretic for blood pressure</p>
+                        <div class="medication-price">¥32.75</div>
+                        <div class="medication-actions">
+                            <div>
+                                <span style="display: inline-block; padding: 3px 10px; background-color: rgba(46, 204, 113, 0.1); color: var(--secondary); border-radius: 20px; font-size: 0.8rem;">
+                                    In Stock
+                                </span>
+                            </div>
+                            <button class="btn btn-sm">
+                                <i class="fas fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Medication Item 4 -->
+                <div class="medication-item">
+                    <div class="medication-image">
+                        <img src="https://via.placeholder.com/80x80.png?text=Med4" alt="Medication">
+                    </div>
+                    <div class="medication-info">
+                        <h3>Losartan</h3>
+                        <p>Angiotensin II receptor blocker</p>
+                        <div class="medication-price">¥52.20</div>
+                        <div class="medication-actions">
+                            <div>
+                                <span style="display: inline-block; padding: 3px 10px; background-color: rgba(46, 204, 113, 0.1); color: var(--secondary); border-radius: 20px; font-size: 0.8rem;">
+                                    In Stock
+                                </span>
+                            </div>
+                            <button class="btn btn-sm">
+                                <i class="fas fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Medication Item 5 -->
+                <div class="medication-item">
+                    <div class="medication-image">
+                        <img src="https://via.placeholder.com/80x80.png?text=Med5" alt="Medication">
+                    </div>
+                    <div class="medication-info">
+                        <h3>Metoprolol</h3>
+                        <p>Beta-blocker for hypertension</p>
+                        <div class="medication-price">¥41.90</div>
+                        <div class="medication-actions">
+                            <div>
+                                <span style="display: inline-block; padding: 3px 10px; background-color: rgba(46, 204, 113, 0.1); color: var(--secondary); border-radius: 20px; font-size: 0.8rem;">
+                                    In Stock
+                                </span>
+                            </div>
+                            <button class="btn btn-sm">
+                                <i class="fas fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Medication Item 6 -->
+                <div class="medication-item">
+                    <div class="medication-image">
+                        <img src="https://via.placeholder.com/80x80.png?text=Med6" alt="Medication">
+                    </div>
+                    <div class="medication-info">
+                        <h3>Aspirin (Low Dose)</h3>
+                        <p>Blood thinner for heart health</p>
+                        <div class="medication-price">¥28.50</div>
+                        <div class="medication-actions">
+                            <div>
+                                <span style="display: inline-block; padding: 3px 10px; background-color: rgba(231, 76, 60, 0.1); color: var(--accent); border-radius: 20px; font-size: 0.8rem;">
+                                    Low Stock
+                                </span>
+                            </div>
+                            <button class="btn btn-sm">
+                                <i class="fas fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Shopping Cart -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3><i class="fas fa-shopping-cart text-primary"></i> Your Cart</h3>
+                </div>
+                <div class="card-body">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <th style="padding: 12px; text-align: left;">Medication</th>
+                                <th style="padding: 12px; text-align: center;">Price</th>
+                                <th style="padding: 12px; text-align: center;">Quantity</th>
+                                <th style="padding: 12px; text-align: center;">Total</th>
+                                <th style="padding: 12px; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px;">
+                                    <div style="display: flex; align-items: center;">
+                                        <img src="https://via.placeholder.com/40x40.png?text=Med1" alt="Medication" style="margin-right: 10px; border-radius: 5px;">
+                                        <div>
+                                            <h4 style="margin: 0;">Lisinopril</h4>
+                                            <small>10mg, 30 tablets</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding: 12px; text-align: center;">¥45.00</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <button style="width: 30px; height: 30px; border: 1px solid var(--border); background: none; cursor: pointer;">-</button>
+                                        <input type="number" value="1" style="width: 40px; height: 30px; text-align: center; border: 1px solid var(--border); margin: 0 5px;">
+                                        <button style="width: 30px; height: 30px; border: 1px solid var(--border); background: none; cursor: pointer;">+</button>
+                                    </div>
+                                </td>
+                                <td style="padding: 12px; text-align: center; font-weight: 500;">¥45.00</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <button style="background: none; border: none; color: var(--accent); cursor: pointer;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px;">
+                                    <div style="display: flex; align-items: center;">
+                                        <img src="https://via.placeholder.com/40x40.png?text=Med3" alt="Medication" style="margin-right: 10px; border-radius: 5px;">
+                                        <div>
+                                            <h4 style="margin: 0;">Hydrochlorothiazide</h4>
+                                            <small>25mg, 30 tablets</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding: 12px; text-align: center;">¥32.75</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <button style="width: 30px; height: 30px; border: 1px solid var(--border); background: none; cursor: pointer;">-</button>
+                                        <input type="number" value="1" style="width: 40px; height: 30px; text-align: center; border: 1px solid var(--border); margin: 0 5px;">
+                                        <button style="width: 30px; height: 30px; border: 1px solid var(--border); background: none; cursor: pointer;">+</button>
+                                    </div>
+                                </td>
+                                <td style="padding: 12px; text-align: center; font-weight: 500;">¥32.75</td>
+                                <td style="padding: 12px; text-align: center;">
+                                    <button style="background: none; border: none; color: var(--accent); cursor: pointer;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" style="padding: 12px; text-align: right; font-weight: 500;">Subtotal:</td>
+                                <td style="padding: 12px; text-align: center; font-weight: 500;">¥77.75</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="padding: 12px; text-align: right; font-weight: 500;">Delivery Fee:</td>
+                                <td style="padding: 12px; text-align: center; font-weight: 500;">¥10.00</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="padding: 12px; text-align: right; font-weight: 700;">Total:</td>
+                                <td style="padding: 12px; text-align: center; font-weight: 700; color: var(--primary);">¥87.75</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-block">
+                        <i class="fas fa-shopping-bag"></i> Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Checkout</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Delivery Address</label>
+                    <textarea class="form-control" rows="3" placeholder="Enter your full delivery address"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Delivery Date</label>
+                    <input type="date" class="form-control" min="2023-01-16">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Delivery Method</label>
+                    <select class="form-control">
+                        <option>Standard Delivery (2-3 days)</option>
+                        <option>Express Delivery (Next day)</option>
+                        <option>Hospital Pickup</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Payment Method</label>
+                    <select class="form-control">
+                        <option>Credit/Debit Card</option>
+                        <option>Alipay</option>
+                        <option>WeChat Pay</option>
+                    </select>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="terms-checkout" class="form-check-input">
+                    <label for="terms-checkout">I confirm that these medications have been prescribed to me</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                <button class="btn">Complete Order</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="scripts.js"></script>
+    <script>
+        // Show checkout modal when checkout button is clicked
+        document.querySelector('.card-footer .btn-block').addEventListener('click', function() {
+            document.getElementById('checkout-modal').style.display = 'flex';
+        });
+        
+        // Close modal function
+        function closeModal() {
+            document.getElementById('checkout-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
