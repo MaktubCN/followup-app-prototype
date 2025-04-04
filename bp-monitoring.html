@@ -236,32 +236,288 @@
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-body">
+                <!-- Measurement Mode Selection -->
                 <div class="form-group">
-                    <label class="form-label">Systolic (mmHg)</label>
-                    <input type="number" class="form-control" id="systolic-input" min="70" max="200">
+                    <label class="form-label">Measurement Mode</label>
+                    <div class="measurement-mode-selector">
+                        <button class="mode-btn active" data-mode="manual" onclick="switchMeasurementMode('manual')">
+                            <i class="fas fa-pencil-alt"></i> Manual Input
+                        </button>
+                        <button class="mode-btn" data-mode="device" onclick="switchMeasurementMode('device')">
+                            <i class="fas fa-link"></i> Device Measurement
+                        </button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Diastolic (mmHg)</label>
-                    <input type="number" class="form-control" id="diastolic-input" min="40" max="130">
+
+                <!-- Manual Input Form -->
+                <div id="manual-input-form">
+                    <div class="form-group">
+                        <label class="form-label">Systolic (mmHg)</label>
+                        <input type="number" class="form-control" id="systolic-input" min="70" max="200">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Diastolic (mmHg)</label>
+                        <input type="number" class="form-control" id="diastolic-input" min="40" max="130">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pulse (bpm)</label>
+                        <input type="number" class="form-control" id="pulse-input" min="40" max="200">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" id="measurement-notes" rows="3"></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Pulse (bpm)</label>
-                    <input type="number" class="form-control" id="pulse-input" min="40" max="200">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Notes</label>
-                    <textarea class="form-control" id="measurement-notes" rows="3"></textarea>
+
+                <!-- Device Measurement Interface -->
+                <div id="device-measurement-interface" style="display: none;">
+                    <div class="device-status">
+                        <div class="status-indicator">
+                            <i class="fas fa-circle-notch fa-spin"></i>
+                            <span id="device-status-text">Waiting for device...</span>
+                        </div>
+                        <div class="measurement-progress" style="display: none;">
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <div class="countdown">60</div>
+                            <button class="btn btn-sm btn-outline" onclick="skipMeasurement()">Skip Wait</button>
+                        </div>
+                    </div>
+                    <div class="device-measurement-result" style="display: none;">
+                        <div class="result-item">
+                            <label>Systolic</label>
+                            <span id="device-systolic">--</span> mmHg
+                        </div>
+                        <div class="result-item">
+                            <label>Diastolic</label>
+                            <span id="device-diastolic">--</span> mmHg
+                        </div>
+                        <div class="result-item">
+                            <label>Pulse</label>
+                            <span id="device-pulse">--</span> bpm
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-                <button class="btn" onclick="saveNewMeasurement()">Save</button>
+                <button class="btn" id="save-measurement-btn" onclick="saveNewMeasurement()">Save</button>
+                <button class="btn" id="start-measurement-btn" onclick="startDeviceMeasurement()" style="display: none;">
+                    Start Measurement
+                </button>
             </div>
         </div>
     </div>
     
+    <style>
+        /* Measurement Mode Selector Styles */
+        .measurement-mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .mode-btn i {
+            margin-right: 8px;
+        }
+
+        /* Device Measurement Interface Styles */
+        .device-status {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .status-indicator {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .status-indicator i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .measurement-progress {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            transition: width 1s linear;
+        }
+
+        .countdown {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 15px 0;
+            color: var(--primary);
+        }
+
+        .device-measurement-result {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            text-align: center;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .result-item label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+        }
+
+        .result-item span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+    </style>
     <script src="scripts.js"></script>
     <script>
+        let measurementMode = 'manual';
+        let measurementTimer = null;
+        let measurementInterval = null;
+
+        function switchMeasurementMode(mode) {
+            measurementMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
+
+            const manualForm = document.getElementById('manual-input-form');
+            const deviceInterface = document.getElementById('device-measurement-interface');
+            const saveBtn = document.getElementById('save-measurement-btn');
+            const startBtn = document.getElementById('start-measurement-btn');
+
+            if (mode === 'manual') {
+                manualForm.style.display = 'block';
+                deviceInterface.style.display = 'none';
+                saveBtn.style.display = 'block';
+                startBtn.style.display = 'none';
+            } else {
+                manualForm.style.display = 'none';
+                deviceInterface.style.display = 'block';
+                saveBtn.style.display = 'none';
+                startBtn.style.display = 'block';
+                resetDeviceInterface();
+            }
+        }
+
+        function resetDeviceInterface() {
+            const statusText = document.getElementById('device-status-text');
+            const progressDiv = document.querySelector('.measurement-progress');
+            const resultDiv = document.querySelector('.device-measurement-result');
+            
+            statusText.textContent = 'Waiting for device...';
+            progressDiv.style.display = 'none';
+            resultDiv.style.display = 'none';
+            
+            document.querySelector('.progress-fill').style.width = '0%';
+            document.querySelector('.countdown').textContent = '60';
+        }
+
+        function startDeviceMeasurement() {
+            const statusText = document.getElementById('device-status-text');
+            const progressDiv = document.querySelector('.measurement-progress');
+            const startBtn = document.getElementById('start-measurement-btn');
+            
+            // Simulate device connection
+            statusText.textContent = 'Connecting to device...';
+            startBtn.disabled = true;
+            
+            setTimeout(() => {
+                statusText.textContent = 'Device connected. Measurement in progress...';
+                progressDiv.style.display = 'block';
+                startMeasurementCountdown();
+            }, 2000);
+        }
+
+        function startMeasurementCountdown() {
+            let timeLeft = 60;
+            const progressFill = document.querySelector('.progress-fill');
+            const countdownDisplay = document.querySelector('.countdown');
+            
+            progressFill.style.width = '0%';
+            measurementInterval = setInterval(() => {
+                timeLeft--;
+                const progress = ((60 - timeLeft) / 60) * 100;
+                progressFill.style.width = `${progress}%`;
+                countdownDisplay.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    completeMeasurement();
+                }
+            }, 1000);
+        }
+
+        function skipMeasurement() {
+            if (measurementInterval) {
+                clearInterval(measurementInterval);
+                completeMeasurement();
+            }
+        }
+
+        function completeMeasurement() {
+            clearInterval(measurementInterval);
+            
+            // Simulate measurement results
+            const systolic = Math.floor(Math.random() * (140 - 110) + 110);
+            const diastolic = Math.floor(Math.random() * (90 - 70) + 70);
+            const pulse = Math.floor(Math.random() * (90 - 60) + 60);
+            
+            document.getElementById('device-systolic').textContent = systolic;
+            document.getElementById('device-diastolic').textContent = diastolic;
+            document.getElementById('device-pulse').textContent = pulse;
+            
+            document.getElementById('device-status-text').textContent = 'Measurement completed';
+            document.querySelector('.measurement-progress').style.display = 'none';
+            document.querySelector('.device-measurement-result').style.display = 'grid';
+            document.getElementById('start-measurement-btn').disabled = false;
+            
+            // Enable save button and populate form values
+            document.getElementById('save-measurement-btn').style.display = 'block';
+            document.getElementById('systolic-input').value = systolic;
+            document.getElementById('diastolic-input').value = diastolic;
+            document.getElementById('pulse-input').value = pulse;
+        }
+
         // Initialize BP Chart
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('bp-history-chart').getContext('2d');
