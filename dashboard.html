@@ -232,11 +232,143 @@
         </div>
     </div>
     
+    <!-- Notification Panel -->
+    <div class="notification-panel">
+        <div class="notification-header">
+            <h3>Notifications</h3>
+            <button class="btn btn-sm btn-outline" onclick="markAllAsRead()">
+                <i class="fas fa-check-double"></i> Mark all as read
+            </button>
+        </div>
+        
+        <!-- Appointment Countdown -->
+        <div class="notification-item unread">
+            <div class="notification-icon" style="background-color: rgba(46, 204, 113, 0.1); color: var(--secondary);">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="notification-content">
+                <h4>Upcoming Appointment</h4>
+                <div class="countdown">
+                    <p>Time until next appointment:</p>
+                    <div id="appointment-countdown">5 days, 2 hours</div>
+                </div>
+                <span class="notification-time">Just now</span>
+            </div>
+        </div>
+        
+        <!-- BP Reminder -->
+        <div class="notification-item unread">
+            <div class="notification-icon" style="background-color: rgba(231, 76, 60, 0.1); color: var(--accent);">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <div class="notification-content">
+                <h4>Blood Pressure Check</h4>
+                <p>It's time for your daily blood pressure measurement.</p>
+                <button class="btn btn-sm" onclick="window.location.href='bp-monitoring.html'">
+                    Record Now
+                </button>
+                <span class="notification-time">30 minutes ago</span>
+            </div>
+        </div>
+        
+        <!-- Monthly Report -->
+        <div class="notification-item">
+            <div class="notification-icon" style="background-color: rgba(52, 152, 219, 0.1); color: var(--primary);">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="notification-content">
+                <h4>Monthly BP Report</h4>
+                <div class="report-stats">
+                    <div class="stat-item">
+                        <label>Average Systolic</label>
+                        <span>122 mmHg</span>
+                    </div>
+                    <div class="stat-item">
+                        <label>Average Diastolic</label>
+                        <span>78 mmHg</span>
+                    </div>
+                </div>
+                <div class="recommendations">
+                    <p><strong>Key Insights:</strong></p>
+                    <ul>
+                        <li>Blood pressure trend is stable</li>
+                        <li>Morning readings slightly elevated</li>
+                    </ul>
+                </div>
+                <span class="notification-time">2 days ago</span>
+            </div>
+        </div>
+    </div>
+
     <script src="scripts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             initBPChart();
+            
+            // Notification Bell Click Handler
+            document.querySelector('.notification-bell').addEventListener('click', function(e) {
+                e.stopPropagation();
+                const notificationPanel = document.querySelector('.notification-panel');
+                notificationPanel.style.display = notificationPanel.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            // Close notification panel when clicking outside
+            document.addEventListener('click', function(e) {
+                const notificationPanel = document.querySelector('.notification-panel');
+                const notificationBell = document.querySelector('.notification-bell');
+                
+                if (!notificationPanel.contains(e.target) && !notificationBell.contains(e.target)) {
+                    notificationPanel.style.display = 'none';
+                }
+            });
+
+            // Handle notification item clicks
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.remove('unread');
+                    updateNotificationCount();
+                    
+                    // Handle different notification types
+                    if (this.querySelector('.btn')) {
+                        const btn = this.querySelector('.btn');
+                        btn.click();
+                    } else if (this.querySelector('.countdown')) {
+                        window.location.href = 'appointments.html';
+                    } else if (this.querySelector('.report-stats')) {
+                        window.location.href = 'bp-monitoring.html';
+                    }
+                });
+            });
+            
+            // Update appointment countdown
+            function updateCountdown() {
+                const appointmentDate = new Date('2024-01-20T10:30:00');
+                const now = new Date();
+                const diff = appointmentDate - now;
+                
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                
+                document.getElementById('appointment-countdown').textContent = 
+                    `${days} days, ${hours} hours`;
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000 * 60); // Update every minute
         });
+        
+        function markAllAsRead() {
+            document.querySelectorAll('.notification-item.unread').forEach(item => {
+                item.classList.remove('unread');
+            });
+            updateNotificationCount();
+        }
+        
+        function updateNotificationCount() {
+            const unreadCount = document.querySelectorAll('.notification-item.unread').length;
+            document.querySelector('.notification-count').textContent = unreadCount.toString();
+        }
     </script>
 </body>
 </html>

@@ -311,6 +311,164 @@
     </div>
     
     <style>
+        /* Notification Panel Styles */
+        .notification-panel {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            width: 350px;
+            max-height: 500px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: none;
+            overflow-y: auto;
+        }
+
+        .notification-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .notification-list {
+            padding: 0;
+        }
+
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: start;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .notification-item:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .notification-item.unread {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h4 {
+            margin: 0 0 5px 0;
+            font-size: 1rem;
+        }
+
+        .notification-content p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Monthly Report Styles */
+        .monthly-report {
+            padding: 15px;
+        }
+
+        .report-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-item label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .stat-item span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .recommendations {
+            margin-top: 20px;
+        }
+
+        .recommendations ul {
+            padding-left: 20px;
+        }
+
+        .recommendations li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        /* Appointment Details Styles */
+        .appointment-details {
+            padding: 15px;
+        }
+
+        .countdown {
+            margin-top: 20px;
+            text-align: center;
+            background: rgba(52, 152, 219, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        #appointment-countdown {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-top: 10px;
+        }
+
+        /* BP Reminder Styles */
+        .bp-reminder {
+            padding: 15px;
+        }
+
+        .bp-reminder .btn {
+            margin-top: 20px;
+            width: 100%;
+        }
+
         /* Measurement Mode Selector Styles */
         .measurement-mode-selector {
             display: flex;
@@ -411,6 +569,43 @@
     </style>
     <script src="scripts.js"></script>
     <script>
+        // 通知面板相关功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationBell = document.querySelector('.notification-bell');
+            const notificationPanel = document.querySelector('.notification-panel');
+            
+            // 点击通知铃铛显示/隐藏通知面板
+            notificationBell.addEventListener('click', function(e) {
+                e.stopPropagation();
+                notificationPanel.style.display = notificationPanel.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            // 点击通知项处理
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // 移除未读状态
+                    this.classList.remove('unread');
+                    // 更新通知计数
+                    updateNotificationCount();
+                });
+            });
+            
+            // 点击页面其他区域关闭通知面板
+            document.addEventListener('click', function(e) {
+                if (!notificationPanel.contains(e.target)) {
+                    notificationPanel.style.display = 'none';
+                }
+            });
+            
+            // 更新通知计数
+            function updateNotificationCount() {
+                const unreadCount = document.querySelectorAll('.notification-item.unread').length;
+                const countElement = document.querySelector('.notification-count');
+                countElement.textContent = unreadCount;
+                countElement.style.display = unreadCount > 0 ? 'block' : 'none';
+            }
+        });
         let measurementMode = 'manual';
         let measurementTimer = null;
         let measurementInterval = null;
@@ -620,5 +815,142 @@
             }
         }
     </script>
+<script>
+// 通知面板交互功能
+let notificationPanel = document.querySelector('.notification-panel');
+let notificationBell = document.querySelector('.notification-bell');
+
+// 点击通知铃铛显示/隐藏通知面板
+notificationBell.addEventListener('click', function(e) {
+    e.stopPropagation();
+    notificationPanel.style.display = notificationPanel.style.display === 'block' ? 'none' : 'block';
+});
+
+// 点击页面其他区域关闭通知面板
+document.addEventListener('click', function(e) {
+    if (!notificationPanel.contains(e.target) && !notificationBell.contains(e.target)) {
+        notificationPanel.style.display = 'none';
+    }
+});
+
+// 点击通知项处理函数
+function handleNotificationClick(type) {
+    const notificationDetails = {
+        appointment: {
+            title: "Appointment consultation reminder",
+            content: document.querySelector('.appointment-details').innerHTML
+        },
+        report: {
+            title: "Blood Pressure Monthly Report",
+            content: document.querySelector('.monthly-report').innerHTML
+        },
+        reminder: {
+            title: "Blood pressure measurement reminder",
+            content: document.querySelector('.bp-reminder').innerHTML
+        }
+    };
+
+    const details = notificationDetails[type];
+    if (details) {
+        const modal = document.getElementById('measurement-modal');
+        const modalTitle = modal.querySelector('.modal-title');
+        const modalBody = modal.querySelector('.modal-body');
+        
+        modalTitle.textContent = details.title;
+        modalBody.innerHTML = details.content;
+        modal.style.display = 'block';
+    }
+}
+</script>
+</body>
+</html>
+
+<div class="notification-panel">
+    <div class="notification-header">
+        <h3>Notifications</h3>
+        <span class="notification-count">3</span>
+    </div>
+    <div class="notification-list">
+        <div class="notification-item unread" onclick="handleNotificationClick('appointment')">
+            <div class="notification-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="notification-content">
+                <h4>Appointment Reminder</h4>
+                <p>You have an upcoming clinic appointment</p>
+                <span class="notification-time">30 minutes ago</span>
+            </div>
+        </div>
+        <div class="notification-item unread" onclick="handleNotificationClick('report')">
+            <div class="notification-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="notification-content">
+                <h4>BP Monthly Report Generated</h4>
+                <p>Your January blood pressure monitoring report is ready</p>
+                <span class="notification-time">2 hours ago</span>
+            </div>
+        </div>
+        <div class="notification-item" onclick="handleNotificationClick('reminder')">
+            <div class="notification-icon">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <div class="notification-content">
+                <h4>BP Measurement Reminder</h4>
+                <p>It's time for your daily blood pressure measurement</p>
+                <span class="notification-time">4 hours ago</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Details Content -->
+<div class="appointment-details" style="display: none;">
+    <h4>Upcoming Clinic Appointment</h4>
+    <p>Doctor: Dr. Zhang</p>
+    <p>Time: January 15, 2024 14:30</p>
+    <p>Location: Six Sense Health Clinic, Room 3</p>
+    <div class="countdown">
+        <p>Time until appointment</p>
+        <div id="appointment-countdown">2 days 4 hours 30 minutes</div>
+    </div>
+</div>
+
+<div class="monthly-report" style="display: none;">
+    <h4>January Blood Pressure Report</h4>
+    <div class="report-stats">
+        <div class="stat-item">
+            <label>Average Systolic</label>
+            <span>122 mmHg</span>
+        </div>
+        <div class="stat-item">
+            <label>Average Diastolic</label>
+            <span>78 mmHg</span>
+        </div>
+        <div class="stat-item">
+            <label>Measurements</label>
+            <span>28 times</span>
+        </div>
+        <div class="stat-item">
+            <label>Target Achievement</label>
+            <span>92%</span>
+        </div>
+    </div>
+    <div class="recommendations">
+        <h4>Recommendations</h4>
+        <ul>
+            <li>Maintain regular measurements</li>
+            <li>Increase physical activity moderately</li>
+            <li>Monitor dietary salt intake</li>
+        </ul>
+    </div>
+</div>
+
+<div class="bp-reminder" style="display: none;">
+    <h4>Blood Pressure Measurement Reminder</h4>
+    <p>According to your measurement schedule, it's time for your daily blood pressure check.</p>
+    <p>Please measure in a quiet environment and rest for 5 minutes before measuring.</p>
+    <button class="btn" onclick="openMeasurementModal()">Start Measurement</button>
+</div>
 </body>
 </html>

@@ -1,5 +1,61 @@
 // DOM Elements
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize notifications
+    initializeNotifications();
+    
+    // Sample notifications data - in real app, this would come from backend
+    const notifications = [
+        {
+            id: 1,
+            type: 'appointment',
+            title: 'Upcoming Appointment',
+            message: 'Your appointment with Dr. Smith is in 2 days',
+            time: '2024-01-20 10:30:00',
+            status: 'unread',
+            details: {
+                doctorName: 'Dr. Smith',
+                specialty: 'Cardiologist',
+                location: 'Main Clinic',
+                appointmentTime: '2024-01-20 10:30:00'
+            }
+        },
+        {
+            id: 2,
+            type: 'bp_measurement',
+            title: 'Blood Pressure Measurement Due',
+            message: 'Time for your daily blood pressure measurement',
+            time: '2024-01-18 09:00:00',
+            status: 'unread',
+            details: {
+                lastMeasurement: '2024-01-17 09:15:00',
+                frequency: 'daily',
+                nextDue: '2024-01-18 09:00:00'
+            }
+        },
+        {
+            id: 3,
+            type: 'monthly_report',
+            title: 'December Blood Pressure Report',
+            message: 'Your monthly blood pressure report is ready',
+            time: '2024-01-01 00:00:00',
+            status: 'unread',
+            details: {
+                period: 'December 2023',
+                averageSystolic: 122,
+                averageDiastolic: 78,
+                totalReadings: 31,
+                trend: 'stable',
+                recommendations: [
+                    'Continue with current medication regimen',
+                    'Maintain regular exercise routine',
+                    'Keep monitoring salt intake'
+                ]
+            }
+        }
+    ];
+    
+    // Update notification count
+    updateNotificationCount(notifications);
     // Login/Register Tab Switching
     const tabs = document.querySelectorAll('.tab');
     const tabPanes = document.querySelectorAll('.tab-pane');
@@ -192,6 +248,212 @@ function searchMedication() {
             item.style.display = 'none';
         }
     });
+}
+
+// Notification System Functions
+function initializeNotifications() {
+    const notificationBell = document.querySelector('.notification-bell');
+    if (notificationBell) {
+        notificationBell.addEventListener('click', showNotificationPanel);
+    }
+}
+
+function updateNotificationCount(notifications) {
+    const unreadCount = notifications.filter(n => n.status === 'unread').length;
+    const countElement = document.querySelector('.notification-count');
+    if (countElement) {
+        countElement.textContent = unreadCount;
+        countElement.style.display = unreadCount > 0 ? 'block' : 'none';
+    }
+}
+
+function showNotificationPanel() {
+    // Create notification panel if it doesn't exist
+    let panel = document.getElementById('notification-panel');
+    if (!panel) {
+        panel = document.createElement('div');
+        panel.id = 'notification-panel';
+        panel.className = 'notification-panel';
+        document.body.appendChild(panel);
+    }
+
+    // Update panel content
+    panel.innerHTML = `
+        <div class="notification-header">
+            <h3>Notifications</h3>
+            <button onclick="closeNotificationPanel()" class="close-btn">&times;</button>
+        </div>
+        <div class="notification-list">
+            ${notifications.map(notification => `
+                <div class="notification-item ${notification.status}" onclick="handleNotificationClick(${notification.id})">
+                    <div class="notification-icon">
+                        ${getNotificationIcon(notification.type)}
+                    </div>
+                    <div class="notification-content">
+                        <h4>${notification.title}</h4>
+                        <p>${notification.message}</p>
+                        <span class="notification-time">${formatNotificationTime(notification.time)}</span>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+
+    // Show panel
+    panel.style.display = 'block';
+}
+
+function closeNotificationPanel() {
+    const panel = document.getElementById('notification-panel');
+    if (panel) {
+        panel.style.display = 'none';
+    }
+}
+
+function getNotificationIcon(type) {
+    const icons = {
+        appointment: '<i class="fas fa-calendar-alt"></i>',
+        bp_measurement: '<i class="fas fa-heartbeat"></i>',
+        monthly_report: '<i class="fas fa-chart-line"></i>'
+    };
+    return icons[type] || '<i class="fas fa-bell"></i>';
+}
+
+function formatNotificationTime(timeString) {
+    const time = new Date(timeString);
+    const now = new Date();
+    const diff = now - time;
+
+    if (diff < 60000) return 'Just now';
+    if (diff < 3600000) return `${Math.floor(diff/60000)} minutes ago`;
+    if (diff < 86400000) return `${Math.floor(diff/3600000)} hours ago`;
+    if (diff < 604800000) return `${Math.floor(diff/86400000)} days ago`;
+    
+    return time.toLocaleDateString();
+}
+
+function handleNotificationClick(notificationId) {
+    const notification = notifications.find(n => n.id === notificationId);
+    if (!notification) return;
+
+    // Mark notification as read
+    notification.status = 'read';
+    updateNotificationCount(notifications);
+
+    // Show detailed content based on notification type
+    switch(notification.type) {
+        case 'appointment':
+            showAppointmentDetails(notification);
+            break;
+        case 'bp_measurement':
+            showBPMeasurementReminder(notification);
+            break;
+        case 'monthly_report':
+            showMonthlyReport(notification);
+            break;
+    }
+}
+
+function showAppointmentDetails(notification) {
+    const modal = createModal('Appointment Details');
+    modal.querySelector('.modal-body').innerHTML = `
+        <div class="appointment-details">
+            <p><strong>Doctor:</strong> ${notification.details.doctorName}</p>
+            <p><strong>Specialty:</strong> ${notification.details.specialty}</p>
+            <p><strong>Location:</strong> ${notification.details.location}</p>
+            <p><strong>Time:</strong> ${new Date(notification.details.appointmentTime).toLocaleString()}</p>
+            <div class="countdown">
+                <p>Time until appointment:</p>
+                <div id="appointment-countdown"></div>
+            </div>
+        </div>
+    `;
+    startAppointmentCountdown(notification.details.appointmentTime);
+}
+
+function showBPMeasurementReminder(notification) {
+    const modal = createModal('Blood Pressure Measurement Reminder');
+    modal.querySelector('.modal-body').innerHTML = `
+        <div class="bp-reminder">
+            <p><strong>Last Measurement:</strong> ${new Date(notification.details.lastMeasurement).toLocaleString()}</p>
+            <p><strong>Frequency:</strong> ${notification.details.frequency}</p>
+            <p><strong>Next Due:</strong> ${new Date(notification.details.nextDue).toLocaleString()}</p>
+            <button class="btn" onclick="openMeasurementModal()">Take Measurement Now</button>
+        </div>
+    `;
+}
+
+function showMonthlyReport(notification) {
+    const modal = createModal('Monthly Blood Pressure Report');
+    modal.querySelector('.modal-body').innerHTML = `
+        <div class="monthly-report">
+            <h4>${notification.details.period} Report</h4>
+            <div class="report-stats">
+                <div class="stat-item">
+                    <label>Average Systolic</label>
+                    <span>${notification.details.averageSystolic} mmHg</span>
+                </div>
+                <div class="stat-item">
+                    <label>Average Diastolic</label>
+                    <span>${notification.details.averageDiastolic} mmHg</span>
+                </div>
+                <div class="stat-item">
+                    <label>Total Readings</label>
+                    <span>${notification.details.totalReadings}</span>
+                </div>
+                <div class="stat-item">
+                    <label>Trend</label>
+                    <span>${notification.details.trend}</span>
+                </div>
+            </div>
+            <div class="recommendations">
+                <h5>Recommendations:</h5>
+                <ul>
+                    ${notification.details.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+}
+
+function createModal(title) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>${title}</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body"></div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    modal.style.display = 'block';
+    return modal;
+}
+
+function startAppointmentCountdown(appointmentTime) {
+    const countdownElement = document.getElementById('appointment-countdown');
+    if (!countdownElement) return;
+
+    const appointment = new Date(appointmentTime);
+    const countdown = setInterval(() => {
+        const now = new Date();
+        const diff = appointment - now;
+
+        if (diff <= 0) {
+            clearInterval(countdown);
+            countdownElement.innerHTML = 'Appointment time has arrived!';
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+        countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m`;
+    }, 1000);
 }
 
 // Appointment Booking Functions
